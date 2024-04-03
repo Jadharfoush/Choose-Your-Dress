@@ -1,54 +1,53 @@
+# dailydressme/views.py
+
+from django.http import JsonResponse
 import os
 import random
-import requests
-from django.http import JsonResponse
 from django.conf import settings
-
+import requests
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from .serializers import ImageUrlSerializer
 from django.shortcuts import render
 
-def index(request):
-    return render(request, 'index.html')
 
+# Assuming your existing functions are defined in this file
+# If not, import them from their respective module
 
-# You need to sign up for OpenWeatherMap to get an API key and add it here
 OPENWEATHERMAP_API_KEY = 'd2a2b4ae87b93c165c5421cee9970939'
 
 def get_weather_data(city):
-    # Constructs the URL to fetch the weather data
-    url = f'http://api.openweathermap.org/data/2.5/weather?q={city}&appid={OPENWEATHERMAP_API_KEY}&units=metric'  # units can be 'metric' or 'imperial'
+    url = f'http://api.openweathermap.org/data/2.5/weather?q={city}&appid={OPENWEATHERMAP_API_KEY}&units=metric'
     response = requests.get(url)
-    response.raise_for_status()  # This will raise an exception for HTTP errors
+    response.raise_for_status()
     data = response.json()
-    return data['main']['temp']  # Returns the current temperature
+    return data['main']['temp']
 
 def get_outfit_image(temperature):
-    # Depending on the temperature, you will select a folder
-    if temperature < 10:  # Celsius
+    if temperature < 10:
         folder = 'cold'
     elif 10 <= temperature < 20:
         folder = 'mild'
     else:
         folder = 'warm'
-
-    # Get the directory for the selected folder
+    
     dir_path = os.path.join(settings.MEDIA_ROOT, folder)
     images = os.listdir(dir_path)
-    # Choose a random image
     image_file = random.choice(images)
     image_url = settings.MEDIA_URL + os.path.join(folder, image_file)
     return image_url
 
-def outfit_recommendation_view(request):
-    city = request.GET.get('city', 'Beirut')  # Default to London if no city is provided in the request
-    try:
-        # Fetch the weather data
-        temperature = get_weather_data(city)
-        # Fetch a random image based on the temperature
-        image_url = get_outfit_image(temperature)
-        return JsonResponse({'image_url': image_url})
-    except requests.RequestException as e:
-        # If the weather API call fails, return an error message
-        return JsonResponse({'error': str(e)}, status=500)
+class OutfitRecommendationView(APIView):
+    def get(self, request):
+        city = request.query_params.get('city', 'Beirut')
+        try:
+            temperature = get_weather_data(city)
+            image_url = get_outfit_image(temperature)
+            serializer = ImageUrlSerializer(data={'image_url': image_url})
+            if serializer.is_valid():
+                return Response(serializer.data)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except requests.RequestException as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-
-        
