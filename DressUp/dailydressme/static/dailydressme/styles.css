@@ -163,3 +163,75 @@ footer {
 }
 
 
+/* Reset default margin and padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Apply styles to the outfit section */
+.outfit-section {
+    text-align: center;
+    padding: 20px;
+}
+
+/* Apply styles to the outfit title */
+.outfit-title {
+    margin-bottom: 10px;
+    font-size: 24px;
+}
+
+/* Apply styles to the temperature information */
+.temperature-info {
+    margin-bottom: 20px;
+}
+
+/* Apply styles to the placeholders */
+.city-placeholder {
+    font-weight: bold;
+}
+
+.temperature-placeholder {
+    font-weight: bold;
+}
+
+/* Apply styles to the outfit image */
+.outfit-image {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+/* Apply styles to the form */
+.outfit-form {
+    margin-top: 20px;
+}
+
+/* Apply styles to the form elements */
+.form-label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.city-input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.submit-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+    background-color: #0056b3;
+}

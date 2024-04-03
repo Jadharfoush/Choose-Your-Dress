@@ -39,16 +39,15 @@
         <!-- Add more slides as needed -->
     </section>
 
-    <section>
-      
-        <h1>Outfit Recommendation for {{ city }}</h1>
-        <p>Current temperature in {{ city }}: {{ temperature }}°C</p>
-        <img src="{{ image_url }}" alt="Outfit Recommendation">
+    <section class="outfit-section">
+        <h1 class="outfit-title">Outfit Recommendation for <span class="city-placeholder">{{ city }}</span></h1>
+        <p class="temperature-info">Current temperature in <span class="city-placeholder">{{ city }}</span>: <span class="temperature-placeholder">{{ temperature }}</span>°C</p>
+        <img src="{{ image_url }}" alt="Outfit Recommendation" class="outfit-image">
         
-        <form id="outfit-form">
-            <label for="city">Enter a city:</label>
-            <input type="text" id="city" name="city">
-            <button type="submit">Get Outfit Recommendation</button>
+        <form id="outfit-form" class="outfit-form">
+            <label for="city" class="form-label">Enter a city:</label>
+            <input type="text" id="city" name="city" class="city-input">
+            <button type="submit" class="submit-button">Get Outfit Recommendation</button>
         </form>
     </section>
 </main>
