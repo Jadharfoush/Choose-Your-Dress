@@ -50,3 +50,6 @@ def outfit_recommendation_view(request):
     except requests.RequestException as e:
         # If the weather API call fails, return an error message
         return JsonResponse({'error': str(e)}, status=500)
+
+
+        
