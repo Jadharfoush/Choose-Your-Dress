@@ -1,16 +1,18 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Website</title>
-    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link rel="stylesheet" href="{% static 'dailydressme/styles.css' %}">
+
 </head>
 <body>
 
 <header class="header">
     <div class="container">
-        <h1 class="logo"><img src="{% static 'logo.png' %}" alt="Your Logo"></h1>
+        <h1 class="logo"><img src="{% static 'dailydressme/logo.png' %}" alt="Your Logo"></h1>
         <nav class="nav">
             <ul>
                 <li><a href="#">Home</a></li>
@@ -25,14 +27,14 @@
 <main>
     <section class="slider">
         <div class="slide">
-            <img src="{% static 'Slide1.jpg' %}" alt="Slide 1">
+            <img src="{% static 'dailydressme/Slide1.jpg' %}" alt="Slide 1">
             <div class="slide-content">
                 <h2>Discover Our Collection</h2>
                 <p>Explore the latest fashion trends.</p>
             </div>
         </div>
         <div class="slide">
-            <img src="{% static 'Slide2.jpg' %}" alt="Slide 2">
+            <img src="{% static 'dailydressme/Slide2.jpg' %}" alt="Slide 2">
             <div class="slide-content">
                 <h2>Get Inspired</h2>
                 <p>Find your unique style.</p>
@@ -42,15 +44,16 @@
     </section>
 
     <section>
-        <h2>Welcome to our website!</h2>
-        <p>This is where your content goes...</p>
-    </section>
-    
-    <section>
-        <h2>Outfit Recommendation</h2>
-        <div id="outfit-recommendation">
-            <p>Loading outfit recommendation...</p>
-        </div>
+        <h2>Our choice for you today Gentlemen</h2>
+        <h1>Outfit Recommendation for {{ city }}</h1>
+        <p>Current temperature in {{ city }}: {{ temperature }}°C</p>
+        <img src="{{ image_url }}" alt="Outfit Recommendation">
+        
+        <form action="{% url 'outfit_recommendation' %}" method="GET">
+            <label for="city">Enter a city:</label>
+            <input type="text" id="city" name="city" value="{{ city }}">
+            <button type="submit">Get Outfit Recommendation</button>
+        </form>
     </section>
 </main>
 
@@ -59,27 +62,20 @@
 </footer>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        fetchOutfitRecommendation();
-    });
-
-    function fetchOutfitRecommendation() {
-        fetch('/outfit-recommendation/?city=Beirut') // You may need to adjust the city parameter as needed
-            .then(response => response.json())
-            .then(data => {
-                const outfitRecommendationDiv = document.getElementById('outfit-recommendation');
-                if (data.error) {
-                    outfitRecommendationDiv.innerHTML = `<p>Error: ${data.error}</p>`;
-                } else {
-                    outfitRecommendationDiv.innerHTML = `<img src="${data.image_url}" alt="Outfit Recommendation">`;
-                }
-            })
-            .catch(error => {
-                console.error('Error fetching outfit recommendation:', error);
-                const outfitRecommendationDiv = document.getElementById('outfit-recommendation');
-                outfitRecommendationDiv.innerHTML = `<p>Error fetching outfit recommendation. Please try again later.</p>`;
-            });
+    const slides = document.querySelectorAll('.slide');
+    let currentSlide = 0;
+    
+    function showSlide(n) {
+        slides[currentSlide].classList.remove('active');
+        currentSlide = (n + slides.length) % slides.length;
+        slides[currentSlide].classList.add('active');
     }
+    
+    function nextSlide() {
+        showSlide(currentSlide + 1);
+    }
+    
+    setInterval(nextSlide, 5000); // Change slide every 5 seconds
 </script>
 
 </body>
