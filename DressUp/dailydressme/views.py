@@ -4,6 +4,13 @@ import requests
 from django.http import JsonResponse
 from django.conf import settings
 
+
+from django.shortcuts import render
+
+def index(request):
+    return render(request, 'index.html')
+
+
 # You need to sign up for OpenWeatherMap to get an API key and add it here
 OPENWEATHERMAP_API_KEY = 'd2a2b4ae87b93c165c5421cee9970939'
 
