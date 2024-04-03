@@ -24,4 +24,3 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('dailydressme.urls')),
 ]
-urlpatterns += staticfiles_urlpatterns()
