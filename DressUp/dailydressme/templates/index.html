@@ -49,7 +49,7 @@
         <p>Current temperature in {{ city }}: {{ temperature }}°C</p>
         <img src="{{ image_url }}" alt="Outfit Recommendation">
         
-        <form action="{% url 'outfit_recommendation' %}" method="GET">
+        <form action="{% url 'outfit_recommendation' %}" method="post">
             <label for="city">Enter a city:</label>
             <input type="text" id="city" name="city" value="{{ city }}">
             <button type="submit">Get Outfit Recommendation</button>
