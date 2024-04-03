@@ -15,6 +15,10 @@ from django.shortcuts import render
 # Assuming your existing functions are defined in this file
 # If not, import them from their respective module
 
+def index(request):
+    # Assuming you have an 'index.html' template in your templates directory
+    return render(request, 'index.html')
+
 OPENWEATHERMAP_API_KEY = 'd2a2b4ae87b93c165c5421cee9970939'
 
 def get_weather_data(city):
