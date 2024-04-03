@@ -39,8 +39,9 @@ def get_outfit_image(temperature):
     return image_url
 
 class OutfitRecommendationView(APIView):
-    def post(self, request):
-        city = request.query_params.get('city', 'Beirut')
+    def post(self, request, *args, **kwargs):
+        # Extract the city from the posted data
+        city = request.data.get('city', 'Beirut')  # Default to Beirut if no city is provided
         try:
             temperature = get_weather_data(city)
             image_url = get_outfit_image(temperature)
