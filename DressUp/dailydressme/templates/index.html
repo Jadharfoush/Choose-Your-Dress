@@ -74,6 +74,28 @@
     function nextSlide() {
         showSlide(currentSlide + 1);
     }
+    document.addEventListener("DOMContentLoaded", function() {
+    // This function will handle the form submission
+    function handleFormSubmit(event) {
+        event.preventDefault(); // Prevent the default form submission
+        const city = document.getElementById('city').value; // Get the city from the input
+
+        // Make the AJAX request to your Django backend
+        fetch(`/your-endpoint-url/?city=${city}`) // Replace `/your-endpoint-url/` with the actual URL to your view
+            .then(response => response.json())
+            .then(data => {
+                // Assuming `data.image_url` contains the URL to the outfit image
+                const imageElement = document.querySelector('img[alt="Outfit Recommendation"]');
+                imageElement.src = data.image_url; // Update the image source
+                imageElement.style.display = 'block'; // Make sure the image is visible
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    // Attach the event listener to the form submission
+    const form = document.querySelector('form');
+    form.addEventListener('submit', handleFormSubmit);
+});
     
     setInterval(nextSlide, 5000); // Change slide every 5 seconds
 </script>
