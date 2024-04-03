@@ -5,6 +5,6 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('api/outfit-recommendation/', views.OutfitRecommendationView.as_view(), name='outfit-recommendation'),
+    path('api/outfit-recommendation/', views.OutfitRecommendationAPIView.as_view(), name='outfit-recommendation'),
 ]
 

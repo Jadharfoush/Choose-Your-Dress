@@ -1,25 +1,14 @@
-# dailydressme/views.py
-
-from django.http import JsonResponse
+from django.shortcuts import render
 import os
 import random
-from django.conf import settings
 import requests
+from django.conf import settings
+from .serializers import ImageUrlSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import ImageUrlSerializer
-from django.shortcuts import render
 
-
-# Assuming your existing functions are defined in this file
-# If not, import them from their respective module
-
-def index(request):
-    # Assuming you have an 'index.html' template in your templates directory
-    return render(request, 'index.html')
-
-OPENWEATHERMAP_API_KEY = 'd2a2b4ae87b93c165c5421cee9970939'
+OPENWEATHERMAP_API_KEY = 'your_api_key_here'  # Replace with your actual API key
 
 def get_weather_data(city):
     url = f'http://api.openweathermap.org/data/2.5/weather?q={city}&appid={OPENWEATHERMAP_API_KEY}&units=metric'
@@ -42,10 +31,27 @@ def get_outfit_image(temperature):
     image_url = settings.MEDIA_URL + os.path.join(folder, image_file)
     return image_url
 
-class OutfitRecommendationView(APIView):
+def index(request):
+    if request.method == 'POST':
+        city = request.POST.get('city', 'Beirut')
+        try:
+            temperature = get_weather_data(city)
+            image_url = get_outfit_image(temperature)
+            context = {
+                'city': city,
+                'temperature': temperature,
+                'image_url': image_url,
+            }
+            return render(request, 'index.html', context)
+        except requests.RequestException as e:
+            context = {'error': str(e)}
+            return render(request, 'index.html', context)
+    else:
+        return render(request, 'index.html')
+
+class OutfitRecommendationAPIView(APIView):
     def post(self, request, *args, **kwargs):
-        # Extract the city from the posted data
-        city = request.data.get('city', 'Beirut')  # Default to Beirut if no city is provided
+        city = request.data.get('city', 'Beirut')
         try:
             temperature = get_weather_data(city)
             image_url = get_outfit_image(temperature)
@@ -55,4 +61,3 @@ class OutfitRecommendationView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except requests.RequestException as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
