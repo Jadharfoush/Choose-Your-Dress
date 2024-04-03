@@ -55,7 +55,7 @@ ROOT_URLCONF = 'DressUp.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS':[],
+        'DIRS': [BASE_DIR / 'DressUp/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
