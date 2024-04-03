@@ -5,6 +5,6 @@ from . import views
 
 urlpatterns = [
     path('get-outfit/', views.outfit_recommendation_view, name='outfit_recommendation'),
-    path('index', views.index, name='index'),
+    path('DressUp\DressUp\templates\index.html', views.index, name='index'),
 ]
 
