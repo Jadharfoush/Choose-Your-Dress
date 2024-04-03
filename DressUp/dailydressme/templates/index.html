@@ -49,9 +49,9 @@
         <p>Current temperature in {{ city }}: {{ temperature }}°C</p>
         <img src="{{ image_url }}" alt="Outfit Recommendation">
         
-        <form action="{% url 'outfit_recommendation' %}" method="GET">
+        <form id="outfit-form">
             <label for="city">Enter a city:</label>
-            <input type="text" id="city" name="city" value="{{ city }}">
+            <input type="text" id="city" name="city">
             <button type="submit">Get Outfit Recommendation</button>
         </form>
     </section>
@@ -74,7 +74,48 @@
     function nextSlide() {
         showSlide(currentSlide + 1);
     }
-    
+    document.addEventListener('DOMContentLoaded', function() {
+        const outfitForm = document.getElementById('outfit-form');
+
+        outfitForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const cityInput = document.getElementById('city');
+            const city = cityInput.value;
+
+            fetch('{% url "outfit-recommendation" %}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken') // You need to handle CSRF
+                },
+                body: JSON.stringify({ city: city })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.image_url) {
+                    document.querySelector('img[alt="Outfit Recommendation"]').src = data.image_url;
+                    document.querySelector('h1[alt="Outfit Recommendation"]').innerText = `Outfit Recommendation for ${city}`;
+                    document.querySelector('p[alt="Outfit Recommendation"]').innerText = `Current temperature in ${city}: ${data.temperature}°C`; // Assuming API sends back temperature
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    });
     setInterval(nextSlide, 5000); // Change slide every 5 seconds
 </script>
 
