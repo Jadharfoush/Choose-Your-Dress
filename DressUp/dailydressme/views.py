@@ -46,7 +46,7 @@ def outfit_recommendation_view(request):
         temperature = get_weather_data(city)
         # Fetch a random image based on the temperature
         image_url = get_outfit_image(temperature)
-        return JsonResponse({'image_url': image_url})
+        return open(image_url)
     except requests.RequestException as e:
         # If the weather API call fails, return an error message
         return JsonResponse({'error': str(e)}, status=500)
