@@ -45,7 +45,15 @@
 
     <section>
         <h2>Our choice for you today Gentlemen</h2>
-        <p>This is where your content goes...</p>
+        <h1>Outfit Recommendation for {{ city }}</h1>
+        <p>Current temperature in {{ city }}: {{ temperature }}°C</p>
+        <img src="{{ image_url }}" alt="Outfit Recommendation">
+        
+        <form action="{% url 'outfit_recommendation' %}" method="GET">
+            <label for="city">Enter a city:</label>
+            <input type="text" id="city" name="city" value="{{ city }}">
+            <button type="submit">Get Outfit Recommendation</button>
+        </form>
     </section>
 </main>
 
