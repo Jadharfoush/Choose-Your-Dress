@@ -74,7 +74,17 @@
     function nextSlide() {
         showSlide(currentSlide + 1);
     }
-    
+    function getOutfit() {
+            const city = document.getElementById('cityInput').value;
+            fetch(`/get-outfit/?city=${city}`)
+                .then(response => response.json())
+                .then(data => {
+                    const imgElement = document.getElementById('outfitImage');
+                    imgElement.src = data.image_url;
+                    imgElement.style.display = 'block'; // Show the image element
+                })
+                .catch(error => console.error('Error fetching outfit:', error));
+        }
     setInterval(nextSlide, 5000); // Change slide every 5 seconds
 </script>
 
