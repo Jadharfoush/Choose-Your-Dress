@@ -223,8 +223,8 @@ footer {
 }
 
 .submit-button {
-    background-color: #007bff;
-    color: #fff;
+    background-color: #ffffff;
+    color: #000000;
     border: none;
     padding: 10px 20px;
     border-radius: 5px;
@@ -233,5 +233,5 @@ footer {
 }
 
 .submit-button:hover {
-    background-color: #0056b3;
+    background-color: #ffffff;
 }
