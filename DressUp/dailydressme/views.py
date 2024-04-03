@@ -39,7 +39,7 @@ def get_outfit_image(temperature):
     return image_url
 
 class OutfitRecommendationView(APIView):
-    def get(self, request):
+    def post(self, request):
         city = request.query_params.get('city', 'Beirut')
         try:
             temperature = get_weather_data(city)
