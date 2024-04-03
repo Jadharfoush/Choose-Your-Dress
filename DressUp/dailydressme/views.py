@@ -56,6 +56,7 @@ class OutfitRecommendationAPIView(APIView):
             temperature = get_weather_data(city)
             image_url = get_outfit_image(temperature)
             serializer = ImageUrlSerializer(data={'image_url': image_url})
+            print(image_url)
             if serializer.is_valid():
                 return Response(serializer.data)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
