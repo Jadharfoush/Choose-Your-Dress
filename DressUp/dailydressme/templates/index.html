@@ -81,7 +81,7 @@
         const city = document.getElementById('city').value; // Get the city from the input
 
         // Make the AJAX request to your Django backend
-        fetch(`/your-endpoint-url/?city=${city}`) // Replace `/your-endpoint-url/` with the actual URL to your view
+        fetch(`http://api.openweathermap.org/data/2.5/weather?q=city=${city}`) // Replace `/your-endpoint-url/` with the actual URL to your view
             .then(response => response.json())
             .then(data => {
                 // Assuming `data.image_url` contains the URL to the outfit image
