@@ -8,7 +8,7 @@ from django.conf import settings
 from django.shortcuts import render
 
 def index(request):
-    return render(request, 'DressUp\DressUp\templates\index.html')
+    return render(request, '..templates\index.html')
 
 
 # You need to sign up for OpenWeatherMap to get an API key and add it here
