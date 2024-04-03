@@ -49,11 +49,62 @@
         <p>Current temperature in {{ city }}: {{ temperature }}°C</p>
         <img src="{{ image_url }}" alt="Outfit Recommendation">
         
-        <form action="{% url 'outfit_recommendation' %}" method="post">
-            <label for="city">Enter a city:</label>
-            <input type="text" id="city" name="city" value="{{ city }}">
-            <button type="submit">Get Outfit Recommendation</button>
-        </form>
+      
+
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!-- Wrap the section that needs to be updated dynamically with an id -->
+<section id="outfit-recommendation-section">
+    <h2>Our choice for you today Gentlemen</h2>
+    <h1>Outfit Recommendation for {{ city }}</h1>
+    <p>Current temperature in {{ city }}: {{ temperature }}°C</p>
+    <img src="{{ image_url }}" alt="Outfit Recommendation">
+    
+    <form id="city-form" method="get">
+        <label for="city">Enter a city:</label>
+        <input type="text" id="city" name="city" value="{{ city }}">
+        <button type="submit">Get Outfit Recommendation</button>
+    </form>
+</section>
+
+<script>
+    // Handle form submission using AJAX
+    document.getElementById('city-form').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent the default form submission behavior
+        
+        // Get the form data
+        const formData = new FormData(this);
+
+        // Send an AJAX request
+        fetch('{% url "outfit_recommendation" %}', {
+            method: 'GET',
+            body: formData
+        })
+        .then(response => response.json()) // Parse the JSON response
+        .then(data => {
+            // Update the content with the response data
+            document.getElementById('outfit-recommendation-section').innerHTML = data.html;
+        })
+        .catch(error => console.error('Error:', error));
+    });
+</script>
+
     </section>
 </main>
 
