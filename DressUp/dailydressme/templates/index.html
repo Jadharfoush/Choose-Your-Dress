@@ -49,63 +49,11 @@
         <p>Current temperature in {{ city }}: {{ temperature }}°C</p>
         <img src="{{ image_url }}" alt="Outfit Recommendation">
         
-      
-
-
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        <section>
-            <h2>Our choice for you today Gentlemen</h2>
-            <h1>Outfit Recommendation for {{ city }}</h1>
-            <p>Current temperature in {{ city }}: {{ temperature }}°C</p>
-            <img src="{{ image_url }}" alt="Outfit Recommendation">
-            
-            <form id="city-form" method="get">
-                <label for="city">Enter a city:</label>
-                <input type="text" id="city" name="city" value="{{ city }}">
-                <button type="submit">Get Outfit Recommendation</button>
-            </form>
-            
-            <!-- This div will be used to display the result -->
-            <div id="outfit-recommendation"></div>
-        </section>
-        
-        <script>
-            // Handle form submission using JavaScript
-            document.getElementById('city-form').addEventListener('submit', function(event) {
-                event.preventDefault(); // Prevent the default form submission behavior
-                
-                // Get the value of the input field
-                const city = document.getElementById('city').value;
-                
-                // Perform any necessary validation here
-                
-                // Send an AJAX request or fetch to get the recommendation
-                // Replace this section with your actual logic to fetch the recommendation
-                
-                // For demonstration purposes, let's simulate a recommendation here
-                const recommendation = "Wear a stylish suit!";
-                
-                // Display the recommendation below the form
-                document.getElementById('outfit-recommendation').innerHTML = "<p>" + recommendation + "</p>";
-            });
-        </script>
-        
+        <form action="{% url 'outfit_recommendation' %}" method="get">
+            <label for="city">Enter a city:</label>
+            <input type="text" id="city" name="city" value="{{ city }}">
+            <button type="submit">Get Outfit Recommendation</button>
+        </form>
     </section>
 </main>
 
