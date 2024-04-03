@@ -223,15 +223,17 @@ footer {
 }
 
 .submit-button {
-    background-color: #ffffff;
+    background-color: #000000;
     color: #000000;
     border: none;
     padding: 10px 20px;
-    border-radius: 5px;
+    border: 1px solid #ccc;
+
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
 .submit-button:hover {
+    scale: x1.4 ;
     background-color: #ffffff;
 }
