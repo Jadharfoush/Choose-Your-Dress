@@ -8,10 +8,6 @@ from django.conf import settings
 from django.shortcuts import render
 
 
-from django.shortcuts import render
-
-def index(request):
-    return render(request, 'index.html')
 
 
 # You need to sign up for OpenWeatherMap to get an API key and add it here
@@ -55,4 +51,4 @@ def outfit_recommendation_view(request):
         return JsonResponse({'error': str(e)}, status=500)
 
 
-
+        
