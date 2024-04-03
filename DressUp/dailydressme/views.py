@@ -40,7 +40,7 @@ def get_outfit_image(temperature):
     return image_url
 
 def outfit_recommendation_view(request):
-    city = request.GET.get('city', 'London')  # Default to London if no city is provided in the request
+    city = request.GET.get('city', 'Beirut')  # Default to London if no city is provided in the request
     try:
         # Fetch the weather data
         temperature = get_weather_data(city)
