@@ -8,7 +8,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
-OPENWEATHERMAP_API_KEY = 'your_api_key_here'  # Replace with your actual API key
+OPENWEATHERMAP_API_KEY = 'd2a2b4ae87b93c165c5421cee9970939'  # Replace with your actual API key
 
 def get_weather_data(city):
     url = f'http://api.openweathermap.org/data/2.5/weather?q={city}&appid={OPENWEATHERMAP_API_KEY}&units=metric'
