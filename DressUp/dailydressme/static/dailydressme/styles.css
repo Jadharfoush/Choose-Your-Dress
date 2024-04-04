@@ -33,9 +33,10 @@ body {
 }
 .logo{
     font-family: Arial, sans-serif;
-    font-size: small;
+    font-size: 25px;
     margin: 0;
     padding: 0;
+    padding-bottom: 20px;
     transition: background-color 0.5s ease;
     color: #333; /* Dark text color */
 }
