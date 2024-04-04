@@ -29,7 +29,8 @@ body {
 }
 
 .header:hover {
-    background-color: #f0f0f0; /* Light background color when hovered */
+    color: #f5f5f5;
+    background-color: #000000; /* Light background color when hovered */
 }
 .logo{
     font-family: Arial, sans-serif;
