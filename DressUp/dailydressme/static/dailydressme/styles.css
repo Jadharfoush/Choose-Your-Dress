@@ -1,10 +1,19 @@
+:root {
+    --background-color: #f5f5f5;
+    --text-color: #333;
+    --header-background-color: #ffffff;
+    --header-hover-background-color: #f0f0f0;
+    --footer-background-color: #ffffff;
+    --footer-text-color: #000000;
+}
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     transition: background-color 0.5s ease;
-    background-color: #f5f5f5; /* Light background color */
-    color: #333; /* Dark text color */
+    background-color: var(--background-color);
+    color: var(--text-color);
 }
 
 .container {
@@ -17,147 +26,73 @@ body {
 }
 
 .header {
-    background-color: #ffffff; /* White background color for header */
-    color: #333333; /* Dark text color */
-    padding: 10px 0; /* Reduced padding for header */
+    background-color: var(--header-background-color);
+    color: var(--text-color);
+    padding: 10px 0;
     position: fixed;
     top: 0;
-    left: 0;
     width: 100%;
     z-index: 1000;
     transition: background-color 0.5s ease, padding 0.5s ease;
 }
 
 .header:hover {
-    background-color: #f0f0f0; /* Light background color when hovered */
+    background-color: var(--header-hover-background-color);
 }
 
 .logo img {
-    max-width: 60px; /* Reduced logo size */
+    max-width: 60px;
     height: auto;
-    transition: max-width 0.5s ease; /* Smooth transition for logo size */
+    transition: max-width 0.5s ease;
 }
 
 .header:hover .logo img {
-    max-width: 70px; /* Increase logo size on hover */
+    max-width: 70px;
 }
 
 .nav ul {
-    list-style-type: none;
+    list-style: none;
     margin: 0;
     padding: 0;
+    display: flex;
 }
 
-.nav ul li {
-    display: inline;
+.nav ul li:not(:last-child) {
     margin-right: 20px;
 }
 
-.nav ul li:last-child {
-    margin-right: 0;
-}
-
 .nav ul li a {
-    color: #333333; /* Dark text color */
+    color: var(--text-color);
     text-decoration: none;
     transition: all 0.3s ease;
 }
 
 .nav ul li a:hover {
-    text-decoration: none;
-    transform: translateY(-3px);
-}
-
-.scrolled {
-    background-color: #ffffff; /* White background color for header when scrolled */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 5px 0; /* Reduced padding for scrolled header */
-}
-
-main {
-    padding-top: 70px; /* Adjust based on the header height */
-}
-
-section {
-    padding: 50px 0;
-    text-align: center;
-}
-
-.slider {
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-    height: 400px; /* Adjust height as needed */
-}
-
-.slide {
-    display: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    opacity: 0;
-    transition: opacity 1s ease-in-out; /* Smooth opacity transition */
-}
-
-.slide.active {
-    display: block;
-    opacity: 1;
-}
-
-.slide img {
-    width: 100%;
-    height: auto;
-    transition: transform 0.8s ease; /* Smooth transform transition for images */
-}
-
-.slide:hover img {
-    transform: scale(1.05); /* Hover effect to slightly zoom in images */
-}
-
-.slide-content {
-    color: #ffffff;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    transition: transform 1s cubic-bezier(0.165, 0.84, 0.44, 1); /* Smooth transform transition for content */
-}
-
-.slide.active .slide-content {
-    transform: translate(-50%, -50%) scale(1); /* Scale to 1 for zoom effect */
+    text-decoration: underline;
 }
 
 footer {
-    background-color: #ffffff; /* Dark background color for footer */
-    color: #000000; /* Light text color for footer */
+    background-color: var(--footer-background-color);
+    color: var(--footer-text-color);
     padding: 20px 0;
     text-align: center;
 }
 
 /* Responsive adjustments */
-@media only screen and (max-width: 768px) {
-    .container {
-        width: 90%;
+@media (max-width: 768px) {
+    .container, .nav ul li {
+        flex-direction: column;
     }
 
-    .header {
-        padding: 5px 0; /* Reduced padding for header */
+    .nav ul li:not(:last-child) {
+        margin-bottom: 10px;
     }
 
     .logo img {
-        max-width: 50px; /* Further reduced logo size */
-    }
-
-    .nav ul li {
-        margin-right: 10px; /* Reduced margin between nav items */
+        max-width: 50px;
     }
 
     main {
-        padding-top: 50px; /* Adjusted padding for main content */
-    }
-
-    .slider {
-        height: 300px; /* Reduced height for slider on smaller screens */
+        padding-top: 60px;
     }
 }
