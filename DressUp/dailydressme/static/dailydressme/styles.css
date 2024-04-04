@@ -47,9 +47,7 @@ body {
     transition: max-width 0.5s ease; /* Smooth transition for logo size */
 }
 
-.header:hover .logo img {
-    max-width: 70px; /* Increase logo size on hover */
-}
+
 
 .nav ul {
     list-style-type: none;
