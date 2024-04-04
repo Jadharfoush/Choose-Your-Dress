@@ -27,13 +27,11 @@ body {
     transition: background-color 0.5s ease, padding 0.5s ease;
 }
 
-.header:hover {
-    background-color: #f0f0f0; /* Light background color when hovered */
-}
+
 
 .menu-buttons:hover{
-    scale: 1.05;
-    color: #f0f0f0;
+    scale: 1.5;
+    color: #ffffff;
     background-color: rgb(0, 0, 0); /* Light background color when hovered */
 
 
