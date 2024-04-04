@@ -28,12 +28,15 @@ body {
     transition: background-color 0.5s ease, padding 0.5s ease;
 }
 
-
+.header:hover {
+    background-color: #f0f0f0; /* Light background color when hovered */
+}
 .logo{
     font-family: Arial, sans-serif;
     font-size: 25px;
     margin: 0;
     padding: 0;
+    margin-bottom: 20px;
     padding-bottom: 20px;
     transition: background-color 0.5s ease;
     color: #333; /* Dark text color */
@@ -117,7 +120,9 @@ section {
     transition: transform 0.8s ease; /* Smooth transform transition for images */
 }
 
-
+.slide:hover img {
+    transform: scale(1.05); /* Hover effect to slightly zoom in images */
+}
 
 .slide-content {
     color: #ffffff;
