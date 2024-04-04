@@ -117,9 +117,7 @@ section {
     transition: transform 0.8s ease; /* Smooth transform transition for images */
 }
 
-.slide:hover img {
-    transform: scale(1.05); /* Hover effect to slightly zoom in images */
-}
+
 
 .slide-content {
     color: #ffffff;
