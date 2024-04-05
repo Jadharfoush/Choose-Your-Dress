@@ -6,7 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Daily Dress</title>
     <link rel="stylesheet" href="{% static 'dailydressme/styles.css' %}">
-
+    <style>
+        /* Add your dark mode styles here */
+        body.dark-mode {
+            background-color: #333;
+            color: #fff;
+        }
+    </style>
 </head>
 <body>
 
@@ -21,6 +27,7 @@
                 <li><a href="#">Contact</a></li>
             </ul>
         </nav>
+        <button id="dark-mode-toggle">Toggle Dark Mode</button>
     </div>
 </header>
 
