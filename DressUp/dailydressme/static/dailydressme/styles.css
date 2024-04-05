@@ -141,6 +141,11 @@ section {
     transform: translate(-50%, -50%) scale(1); /* Scale to 1 for zoom effect */
 }
 
+.answer{
+width: 250px;
+height: 240px;
+}
+
 footer {
     background-color: #ffffff; /* Dark background color for footer */
     color: #000000; /* Light text color for footer */
