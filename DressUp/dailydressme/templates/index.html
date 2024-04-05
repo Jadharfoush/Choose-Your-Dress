@@ -6,30 +6,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Daily Dress</title>
     <link rel="stylesheet" href="{% static 'dailydressme/styles.css' %}">
-    <style>
         /* Add your dark mode styles here */
-        body.dark-mode {
-            background-color: #333;
-            color: #fff;
-        }
-    </style>
-</head>
-<body>
+        <style>
+            body.dark-mode {
+                background-color: #333;
+                color: #fff;
+            }
+        </style>
+        </head>
+        <body>
 
-<header class="header">
-    <div class="container">
-        <h1 class="logo"><img src="{% static 'dailydressme/logo.png' %}" alt="Your Logo"></h1>
-        <nav class="nav">
-            <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Services</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
-        </nav>
-        <button id="dark-mode-toggle">Toggle Dark Mode</button>
-    </div>
-</header>
+        <header class="header">
+            <div class="container">
+                <h1 class="logo"><img src="{% static 'dailydressme/logo.png' %}" alt="Your Logo"></h1>
+                <nav class="nav">
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Services</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </nav>
+                <button id="dark-mode-toggle">Toggle Dark Mode</button>
+            </div>
+        </header>
+
+        <script>
+            const darkModeToggle = document.getElementById('dark-mode-toggle');
+            const body = document.body;
+
+            darkModeToggle.addEventListener('click', () => {
+                body.classList.toggle('dark-mode');
+            });
+        </script>
 
 <main>
     <section class="slider">
