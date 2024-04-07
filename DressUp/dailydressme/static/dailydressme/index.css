@@ -205,6 +205,8 @@ body{
   padding:30px 0px;
   font-family: 'Play', sans-serif;
   text-align:center;
+  align-items: center;
+
   }
   
   .footer .row{
@@ -213,13 +215,14 @@ body{
   padding:0.6% 0%;
   color:gray;
   font-size:0.8em;
+  text-align:center;
+
   }
   
   .footer .row a{
   text-decoration:none;
   color:gray;
   transition:0.5s;
-  align-items: center;
   }
   
   .footer .row a:hover{
