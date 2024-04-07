@@ -216,6 +216,7 @@ body{
   color:gray;
   font-size:0.8em;
   text-align:center;
+  align-items: center;
 
   }
   
@@ -223,6 +224,9 @@ body{
   text-decoration:none;
   color:gray;
   transition:0.5s;
+  text-align:center;
+  align-items: center;
+
   }
   
   .footer .row a:hover{
