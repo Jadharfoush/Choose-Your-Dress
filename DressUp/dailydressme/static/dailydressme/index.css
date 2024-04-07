@@ -194,6 +194,12 @@ header .overlay {
 }
 
 
+
+/*footert*/
+body{
+  margin:0;
+  overflow-x:hidden;
+  }
 .footer{
   background:#000;
   padding:30px 0px;
