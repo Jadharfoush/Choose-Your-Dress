@@ -201,7 +201,7 @@ header .overlay {
 
 
 .footer {
-  padding-top: 1200px;
+  margin-top: auto;
   position: relative;
   width: 100%;
   background: #3586ff;
