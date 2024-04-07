@@ -31,6 +31,7 @@ def get_outfit_image(temperature):
     image_url = settings.MEDIA_URL + os.path.join(folder, image_file)
     return image_url
 def home(request):
+    return render(request, 'home.html')
 
 def index(request):
     if request.method == 'POST':
