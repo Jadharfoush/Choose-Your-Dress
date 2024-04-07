@@ -81,26 +81,26 @@
 </header>
 
 <body>
-<section>
-    <h2>Our choice for you today</h2>
-    <h1>Outfit Recommendation for {{ city }}</h1>
+  <section class="outfit-section">
+    <h2 class="section-title">Our choice for you today</h2>
+    <h1 class="outfit-title">Outfit Recommendation for {{ city }}</h1>
     {% if temperature and city %}
-        <p>Current temperature in {{ city }}: {{ temperature }}°C</p>
+        <p class="temperature-info">Current temperature in {{ city }}: {{ temperature }}°C</p>
     {% endif %}
     
     {% if image_url %}
-        <img src="{{ image_url }}" alt="Outfit Recommendation">
+        <img src="{{ image_url }}" alt="Outfit Recommendation" class="outfit-image">
     {% else %}
-        <p>No outfit recommendation available.</p>
+        <p class="no-outfit">No outfit recommendation available.</p>
     {% endif %}
     
-    <form action="{% url 'index' %}" method="post">
+    <form action="{% url 'index' %}" method="post" class="city-form">
         {% csrf_token %}
-        <label for="city">Enter a city:</label>
-        <input type="text" id="city" name="city" placeholder="Enter a city">
-        <button type="submit">Get Outfit Recommendation</button>
+        <label for="city" class="city-label">Enter a city:</label>
+        <input type="text" id="city" name="city" placeholder="Enter a city" class="city-input">
+        <button type="submit" class="get-recommendation">Get Outfit Recommendation</button>
     </form>
-    
 </section>
+
 </body>
 </html>

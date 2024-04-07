@@ -122,3 +122,69 @@ header .overlay {
     display: none;
   }
 }
+/* Spicy CSS for the form */
+
+.outfit-section {
+  text-align: center;
+  padding: 20px;
+}
+
+.section-title {
+  font-size: 1.8em;
+  margin-bottom: 10px;
+  color: #ffa500; /* Orange */
+}
+
+.outfit-title {
+  font-size: 2.5em;
+  margin-bottom: 20px;
+  color: #ff6347; /* Tomato Red */
+}
+
+.temperature-info {
+  font-size: 1.2em;
+  margin-bottom: 15px;
+  color: #696969; /* Dim Gray */
+}
+
+.city-input {
+  padding: 10px;
+  margin: 5px;
+  width: 250px;
+  border: 2px solid #ff6347; /* Tomato Red */
+  border-radius: 5px;
+  font-size: 1em;
+}
+
+.get-recommendation {
+  padding: 10px 20px;
+  margin: 10px;
+  font-size: 1em;
+  background-color: #ff6347; /* Tomato Red */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.get-recommendation:hover {
+  background-color: #dc143c; /* Crimson */
+}
+
+.outfit-image {
+  max-width: 100%;
+  margin-top: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.outfit-image:hover {
+  transform: scale(1.05);
+}
+
+.no-outfit {
+  font-size: 1.2em;
+  color: #696969; /* Dim Gray */
+}
