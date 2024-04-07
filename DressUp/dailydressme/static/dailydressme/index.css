@@ -152,7 +152,7 @@ header .overlay {
   padding: 10px;
   margin: 5px;
   width: 250px;
-  border: 2px solid #959595; /* Tomato Red */
+  border: 2px solid #959595; 
   border-radius: 5px;
   font-size: 1em;
 }
@@ -161,7 +161,7 @@ header .overlay {
   padding: 10px 20px;
   margin: 10px;
   font-size: 1em;
-  background-color: #000000; /* Tomato Red */
+  background-color: #000000;
   color: white;
   border: none;
   border-radius: 5px;
@@ -170,7 +170,7 @@ header .overlay {
 }
 
 .get-recommendation:hover {
-  background-color: #ffffff; /* Crimson */
+  background-color: #ffffff;
   color: rgb(0, 0, 0);
 
 }
