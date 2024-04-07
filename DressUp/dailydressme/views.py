@@ -30,6 +30,7 @@ def get_outfit_image(temperature):
     image_file = random.choice(images)
     image_url = settings.MEDIA_URL + os.path.join(folder, image_file)
     return image_url
+    
 def home(request):
     return render(request, 'home.html')
 
