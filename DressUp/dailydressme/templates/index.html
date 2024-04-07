@@ -1,90 +1,21 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Daily Dress</title>
-    <link rel="stylesheet" href="{% static 'dailydressme/styles.css' %}">
-
-</head>
-<body>
-
-<header class="header">
-    <div class="container">
-        <h1 class="logo"><img src="{% static 'dailydressme/logo.png' %}" alt="Your Logo"></h1>
-        <nav class="nav">
-            <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Services</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
-        </nav>
-    </div>
-</header>
-
-<main>
-    <section class="slider">
-        <div class="slide">
-            <img src="{% static 'dailydressme/Slide1.jpg' %}" alt="Slide 1">
-            <div class="slide-content">
-                <h2>Discover Our Collection</h2>
-                <p>Explore the latest fashion trends.</p>
-            </div>
-        </div>
-        <div class="slide">
-            <img src="{% static 'dailydressme/Slide2.jpg' %}" alt="Slide 2">
-            <div class="slide-content">
-                <h2>Get Inspired</h2>
-                <p>Find your unique style.</p>
-            </div>
-        </div>
-        <!-- Add more slides as needed -->
-    </section>
-
-    <section>
-        <h2>Our choice for you today</h2>
-        <h1>Outfit Recommendation for {{ city }}</h1>
-        {% if temperature and city %}
-            <p>Current temperature in {{ city }}: {{ temperature }}°C</p>
-        {% endif %}
-        
-        {% if image_url %}
-            <img src="{{ image_url }}" alt="Outfit Recommendation">
-        {% else %}
-            <p>No outfit recommendation available.</p>
-        {% endif %}
-        
-        <form action="{% url 'index' %}" method="post">
-            {% csrf_token %}
-            <label for="city">Enter a city:</label>
-            <input type="text" id="city" name="city" placeholder="Enter a city">
-            <button type="submit">Get Outfit Recommendation</button>
-        </form>
-        
-    </section>
-</main>
-
-<footer class="footer">
-    <p>&copy; 2024 Your Daily Dress. All rights reserved.</p>
-</footer>
-<script>
-    const slides = document.querySelectorAll('.slide');
-    let currentSlide = 0;
+<section>
+    <h2>Our choice for you today</h2>
+    <h1>Outfit Recommendation for {{ city }}</h1>
+    {% if temperature and city %}
+        <p>Current temperature in {{ city }}: {{ temperature }}°C</p>
+    {% endif %}
     
-    function showSlide(n) {
-        slides[currentSlide].classList.remove('active');
-        currentSlide = (n + slides.length) % slides.length;
-        slides[currentSlide].classList.add('active');
-    }
+    {% if image_url %}
+        <img src="{{ image_url }}" alt="Outfit Recommendation">
+    {% else %}
+        <p>No outfit recommendation available.</p>
+    {% endif %}
     
-    function nextSlide() {
-        showSlide(currentSlide + 1);
-    }
+    <form action="{% url 'index' %}" method="post">
+        {% csrf_token %}
+        <label for="city">Enter a city:</label>
+        <input type="text" id="city" name="city" placeholder="Enter a city">
+        <button type="submit">Get Outfit Recommendation</button>
+    </form>
     
-    setInterval(nextSlide, 5000); // Change slide every 5 seconds
-</script>
-
-</body>
-</html>
+</section>
