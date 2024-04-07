@@ -1,18 +1,12 @@
-/* Apply styles to the header */
 header {
   position: relative;
   background-color: black;
-  height: 75vh; /* Set the height to 75% of the viewport height */
-  min-height: 25rem; /* Minimum height */
+  height: 75vh;
+  min-height: 25rem;
   width: 100%;
   overflow: hidden;
-  display: flex; /* Use flexbox for layout */
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
-  color: white; /* Text color */
 }
 
-/* Apply styles to the video */
 header video {
   position: absolute;
   top: 50%;
@@ -21,11 +15,18 @@ header video {
   min-height: 100%;
   width: auto;
   height: auto;
-  z-index: -1; /* Send the video behind the text */
-  transform: translate(-50%, -50%);
+  z-index: 0;
+  -ms-transform: translateX(-50%) translateY(-50%);
+  -moz-transform: translateX(-50%) translateY(-50%);
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
 }
 
-/* Apply styles to the overlay */
+header .container {
+  position: relative;
+  z-index: 2;
+}
+
 header .overlay {
   position: absolute;
   top: 0;
@@ -34,22 +35,19 @@ header .overlay {
   width: 100%;
   background-color: black;
   opacity: 0.5;
-  z-index: 0; /* Ensure overlay is below text */
+  z-index: 1;
 }
 
-/* Apply styles to the text container */
-header .text-container {
-  position: relative;
-  z-index: 1; /* Ensure text is above video and overlay */
-  text-align: center;
-}
+/* Media Query for devices withi coarse pointers and no hover functionality */
 
-/* Apply styles to the heading */
-header h1 {
-  font-size: 3rem;
-}
+/* This will use a fallback image instead of a video for devices that commonly do not support the HTML5 video element */
 
-/* Apply styles to the lead paragraph */
-header p {
-  font-size: 1.5rem;
+@media (pointer: coarse) and (hover: none) {
+  header {
+    background: url('https://source.unsplash.com/XT5OInaElMw/1600x900') black no-repeat center center scroll;
+  }
+
+  header video {
+    display: none;
+  }
 }
