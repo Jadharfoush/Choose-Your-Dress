@@ -132,44 +132,45 @@ header .overlay {
 .section-title {
   font-size: 1.8em;
   margin-bottom: 10px;
-  color: #ffa500; /* Orange */
+  color: #ffffff; /* White */
 }
 
 .outfit-title {
   font-size: 2.5em;
   margin-bottom: 20px;
-  color: #ff6347; /* Tomato Red */
+  color: #000000; /* Black */
 }
 
 .temperature-info {
   font-size: 1.2em;
   margin-bottom: 15px;
-  color: #696969; /* Dim Gray */
+  color: #ffffff; /* White */
 }
 
 .city-input {
   padding: 10px;
   margin: 5px;
   width: 250px;
-  border: 2px solid #ff6347; /* Tomato Red */
+  border: 2px solid #000000; /* Black */
   border-radius: 5px;
   font-size: 1em;
+  color: #000000; /* Black */
 }
 
 .get-recommendation {
   padding: 10px 20px;
   margin: 10px;
   font-size: 1em;
-  background-color: #ff6347; /* Tomato Red */
-  color: white;
-  border: none;
+  background-color: transparent;
+  color: #ffffff; /* White */
+  border: 2px solid #ffffff; /* White */
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
 .get-recommendation:hover {
-  background-color: #dc143c; /* Crimson */
+  background-color: rgba(255, 255, 255, 0.2); /* White with 20% opacity */
 }
 
 .outfit-image {
@@ -186,5 +187,5 @@ header .overlay {
 
 .no-outfit {
   font-size: 1.2em;
-  color: #696969; /* Dim Gray */
+  color: #ffffff; /* White */
 }
