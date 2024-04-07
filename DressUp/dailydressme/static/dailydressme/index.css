@@ -219,6 +219,7 @@ body{
   text-decoration:none;
   color:gray;
   transition:0.5s;
+  align-items: center;
   }
   
   .footer .row a:hover{
