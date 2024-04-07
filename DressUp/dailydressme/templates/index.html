@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="stlyes.css">
 <div class="background-one">
     <div class="link-container">
       <a class="link-one" href="https://jhancock532.github.io/link-hover-effects/">Home</a>
@@ -11,3 +12,24 @@
   </div>
 
 
+<section>
+    <h2>Our choice for you today</h2>
+    <h1>Outfit Recommendation for {{ city }}</h1>
+    {% if temperature and city %}
+        <p>Current temperature in {{ city }}: {{ temperature }}°C</p>
+    {% endif %}
+    
+    {% if image_url %}
+        <img src="{{ image_url }}" alt="Outfit Recommendation">
+    {% else %}
+        <p>No outfit recommendation available.</p>
+    {% endif %}
+    
+    <form action="{% url 'index' %}" method="post">
+        {% csrf_token %}
+        <label for="city">Enter a city:</label>
+        <input type="text" id="city" name="city" placeholder="Enter a city">
+        <button type="submit">Get Outfit Recommendation</button>
+    </form>
+    
+</section>
