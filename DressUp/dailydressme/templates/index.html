@@ -2,89 +2,120 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Play&display=swap" rel="stylesheet"> 
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'dailydressme/index.css' %}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Daily Dress</title>
-    <link rel="stylesheet" href="{% static 'dailydressme/styles.css' %}">
-
+    <title>Document</title>
 </head>
-<body>
-
-<header class="header">
-    <div class="container">
-        <h1 class="logo"><img src="{% static 'dailydressme/logo.png' %}" alt="Your Logo"></h1>
-        <nav class="nav">
-            <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Services</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
-        </nav>
+<header>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg fixed-top navbar-scroll">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#!">Dress Up</a>
+      <button class="navbar-toggler" type="button" data-mdb-toggle="collapse"
+        data-mdb-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+        aria-label="Toggle navigation">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#!">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#!">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#!">Services</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#!">Attractions</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#!">Opinions</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#!">Contact</a>
+          </li>
+      </div>
     </div>
+  </nav>
+  <!-- Navbar -->
+
+  <!-- This div is  intentionally blank. It creates the transparent black overlay over the video which you can modify in the CSS -->
+  <div class="overlay"></div>
+
+  <!-- The HTML5 video element that will create the background video on the header -->
+  <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
+    <source src="https://dailydressmee.s3.eu-central-1.amazonaws.com/videoplayback.mp4" type="video/mp4">
+  </video>
+
+  <!-- The header content -->
+  <div class="container h-100">
+    <div class="d-flex h-100 text-center align-items-center">
+      <div class="w-100 text-white">
+        <h1 class="display-3">"Care for your clothes like the good friends they are."</h1>
+        <p class="lead mb-0">We will choose for you sir</p>
+      </div>
+    </div>
+  </div>
 </header>
 
-<main>
-    <section class="slider">
-        <div class="slide">
-            <img src="{% static 'dailydressme/Slide1.jpg' %}" alt="Slide 1">
-            <div class="slide-content">
-                <h2>Discover Our Collection</h2>
-                <p>Explore the latest fashion trends.</p>
-            </div>
-        </div>
-        <div class="slide">
-            <img src="{% static 'dailydressme/Slide2.jpg' %}" alt="Slide 2">
-            <div class="slide-content">
-                <h2>Get Inspired</h2>
-                <p>Find your unique style.</p>
-            </div>
-        </div>
-        <!-- Add more slides as needed -->
-    </section>
-
-    <section>
-        <h2>Our choice for you today</h2>
-        <h1>Outfit Recommendation for {{ city }}</h1>
-        {% if temperature and city %}
-            <p>Current temperature in {{ city }}: {{ temperature }}°C</p>
-        {% endif %}
-        
-        {% if image_url %}
-            <img src="{{ image_url }}" alt="Outfit Recommendation">
-        {% else %}
-            <p>No outfit recommendation available.</p>
-        {% endif %}
-        
-        <form action="{% url 'index' %}" method="post">
-            {% csrf_token %}
-            <label for="city">Enter a city:</label>
-            <input type="text" id="city" name="city" placeholder="Enter a city">
-            <button type="submit">Get Outfit Recommendation</button>
-        </form>
-        
-    </section>
-</main>
-
-<footer class="footer">
-    <p>&copy; 2024 Your Daily Dress. All rights reserved.</p>
-</footer>
-<script>
-    const slides = document.querySelectorAll('.slide');
-    let currentSlide = 0;
+<body>
+  <section class="outfit-section">
+    <h2 class="section-title">Open Your closet</h2>
+    <h1 class="outfit-title">Outfit Recommendation for {{ city }}</h1>
+    {% if temperature and city %}
+        <p class="temperature-info">Current temperature in {{ city }}: {{ temperature }}°C</p>
+    {% endif %}
     
-    function showSlide(n) {
-        slides[currentSlide].classList.remove('active');
-        currentSlide = (n + slides.length) % slides.length;
-        slides[currentSlide].classList.add('active');
-    }
+    {% if image_url %}
+        <img src="{{ image_url }}" alt="Outfit Recommendation" class="outfit-image">
+    {% else %}
+        <p class="no-outfit">No outfit recommendation available.</p>
+    {% endif %}
     
-    function nextSlide() {
-        showSlide(currentSlide + 1);
-    }
-    
-    setInterval(nextSlide, 5000); // Change slide every 5 seconds
-</script>
+    <form action="{% url 'index' %}" method="post" class="city-form">
+        {% csrf_token %}
+        <label for="city" class="city-label">Enter a city:</label>
+        <input type="text" id="city" name="city" placeholder="Enter a city" class="city-input">
+        <button type="submit" class="get-recommendation">Get Outfit Recommendation</button>
+    </form>
+</section>
 
 </body>
+
+  <footer class="footer">
+    <ul class="social-icon">
+      <li class="social-icon__item"><a class="social-icon__link" href="#">
+          <ion-icon name="logo-facebook"></ion-icon>
+        </a></li>
+      <li class="social-icon__item"><a class="social-icon__link" href="#">
+          <ion-icon name="logo-twitter"></ion-icon>
+        </a></li>
+      <li class="social-icon__item"><a class="social-icon__link" href="#">
+          <ion-icon name="logo-linkedin"></ion-icon>
+        </a></li>
+      <li class="social-icon__item"><a class="social-icon__link" href="#">
+          <ion-icon name="logo-instagram"></ion-icon>
+        </a></li>
+    </ul>
+    <ul class="menu">
+      <li class="menu__item"><a class="menu__link" href="#">Home</a></li>
+      <li class="menu__item"><a class="menu__link" href="#">About</a></li>
+      <li class="menu__item"><a class="menu__link" href="#">Services</a></li>
+      <li class="menu__item"><a class="menu__link" href="#">Team</a></li>
+      <li class="menu__item"><a class="menu__link" href="#">Contact</a></li>
+
+    </ul>
+    <p>&copy;2024 FJ Group | All Rights Reserved</p>
+  </footer>
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
 </html>
