@@ -66,8 +66,7 @@ class OutfitRecommendationAPIView(APIView):
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
 class TemperatureAPIView(APIView):
-    def post(self, request, *args, **kwargs):
-        city = request.data.get('city', 'Beirut')  # Default to Beirut if no city is provided
+    def post(city,request, *args, **kwargs): # Default to Beirut if no city is provided
         try:
             temperature = get_weather_data(city)
             return Response({'temperature': temperature})
