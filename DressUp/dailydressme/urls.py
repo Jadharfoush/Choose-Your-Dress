@@ -9,5 +9,6 @@ urlpatterns = [
 
     
     path('api/outfit-recommendation/', views.OutfitRecommendationAPIView.as_view(), name='outfit-recommendation'),
+    path('api/temperature', views.TemperatureAPIView.as_view(), name='api-temperature'),
 ]
 

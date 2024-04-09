@@ -64,3 +64,12 @@ class OutfitRecommendationAPIView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except requests.RequestException as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+class TemperatureAPIView(APIView):
+    def post(self, request, *args, **kwargs):
+        city = request.data.get('city', 'Beirut')  # Default to Beirut if no city is provided
+        try:
+            temperature = get_weather_data(city)
+            return Response({'city': city, 'temperature': temperature})
+        except requests.RequestException as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
