@@ -20,6 +20,6 @@ jobs:
       run: |
         docker buildx build --platform linux/amd64 -t jadharfoush/chooseyourdress:latest --push .
       env:
-        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        DOCKER_USERNAME: Jadharfoush
+        DOCKER_PASSWORD: Jad22030201
       working-directory: ./DressUp
