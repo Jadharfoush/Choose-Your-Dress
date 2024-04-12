@@ -1,0 +1,45 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git url: 'https://github.com/Jadharfoush/Choose-Your-Dress.git', branch: 'main'
+            }
+        }
+
+        stage('Setup Environment') {
+            steps {
+                sh 'pip install -r requirements.txt'
+            }
+        }
+
+        stage('Validate APIs') {
+            steps {
+                script {
+                    def customApiTemp = sh(script: 'python validate_apis.py --api custom', returnStdout: true).trim()
+                    def openWeatherMapTemp = sh(script: 'python validate_apis.py --api openweathermap', returnStdout: true).trim()
+
+                    
+                    if (customApiTemp == openWeatherMapTemp) {
+                        echo "API validation successful: Temperatures match."
+                    } else {
+                        error "API validation failed: Temperatures do not match."
+                    }
+                }
+            }
+        }
+    }
+    
+    post {
+        always {
+            echo 'Cleaning up...'
+        }
+        success {
+            echo 'Validation succeeded.'
+        }
+        failure {
+            echo 'Validation failed.'
+        }
+    }
+}
