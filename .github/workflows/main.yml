@@ -16,10 +16,12 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1
 
-    - name: Build and Push Docker Image
-      run: |
-        docker buildx build --platform linux/amd64 -t jadharfoush/chooseyourdress:latest --push .
-      env:
-        DOCKER_USERNAME: Jadharfoush
-        DOCKER_PASSWORD: Jad22030201
+    - name: Log in to Docker Hub
+      run: echo "${{ secrets.DOCKER_TOKEN }}" | docker login -u jadharfoush --password-stdin
+
+    - name: Build Docker Image
+      run: docker buildx build --platform linux/amd64 -t jadharfoush/chooseyourdress:latest .
       working-directory: ./DressUp
+
+    - name: Push Docker Image
+      run: docker push jadharfoush/chooseyourdress:latest
