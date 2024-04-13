@@ -15,6 +15,7 @@ def get_weather_data(city):
     response = requests.get(url)
     response.raise_for_status()
     data = response.json()
+    print("Received data:", data)
     return data['main']['temp']
 
 def get_outfit_image(temperature):
