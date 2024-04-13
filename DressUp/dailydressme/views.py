@@ -71,6 +71,7 @@ class TemperatureAPIView(APIView):
         city = request.data.get('city', 'oslo')  # Default to Beirut if no city is provided
         try:
             temperature = get_weather_data(city)
+            print(f"Temperature in {city}: {temperature}")
             return Response({'temperature': temperature})
         except requests.RequestException as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
