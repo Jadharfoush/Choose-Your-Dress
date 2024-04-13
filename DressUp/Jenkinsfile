@@ -1,42 +1,40 @@
 pipeline {
     agent any
 
+    tools {
+        python 'Python3'
+    }
+
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/Jadharfoush/Choose-Your-Dress.git', branch: 'main'
+                checkout scm
             }
         }
 
-        stage('Setup Environment') {
+        stage('Setup Python Environment') {
             steps {
+                sh 'python -m venv venv'
+                sh '. venv/bin/activate'
                 sh 'pip install -r requirements.txt'
             }
         }
 
-        stage('Validate APIs') {
+        stage('Run Validation Tests') {
             steps {
-                script {
-                    def customApiTemp = sh(script: 'python validate_apis.py --api custom', returnStdout: true).trim()
-                    def openWeatherMapTemp = sh(script: 'python validate_apis.py --api openweathermap', returnStdout: true).trim()
-
-                    
-                    if (customApiTemp == openWeatherMapTemp) {
-                        echo "API validation successful: Temperatures match."
-                    } else {
-                        error "API validation failed: Temperatures do not match."
-                    }
-                }
+                sh '. venv/bin/activate'
+                sh 'python manage.py test'
             }
         }
     }
-    
+
     post {
         always {
             echo 'Cleaning up...'
+            sh 'rm -rf venv' // Clean up virtual environment
         }
         success {
-            echo 'Validation succeeded.'
+            echo 'Validation succeeded. Ready for deployment.'
         }
         failure {
             echo 'Validation failed.'
