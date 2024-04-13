@@ -10,27 +10,38 @@ pipeline {
 
         stage('Setup Python Environment') {
             steps {
-                sh 'python3 -m venv venv'
-                sh '. venv/bin/activate'
-                sh 'pip install -r requirements.txt'
+                dir('DressUp') {  // Navigate into the DressUp directory
+                    sh 'python3 -m venv venv'
+                    sh '''
+                    . venv/bin/activate
+                    pip install -r requirements.txt
+                    '''
+                }
             }
         }
 
         stage('Run Validation Tests') {
             steps {
-                sh '. venv/bin/activate'
-                sh 'python3 manage.py test'
+                dir('DressUp') {  // Ensure you are still in the DressUp directory
+                    sh '''
+                    . venv/bin/activate
+                    python manage.py test
+                    '''
+                }
             }
         }
     }
 
     post {
         always {
-            echo 'Cleaning up...'
-            sh 'rm -rf venv' // Clean up virtual environment
+            dir('DressUp') {  // Ensure you clean up the virtual environment within the DressUp directory
+                echo 'Cleaning up...'
+                sh 'rm -rf venv'
+            }
+            echo 'Pipeline execution completed.'
         }
         success {
-            echo 'Validation succeeded. Ready for deployment.'
+            echo 'Validation succeeded.'
         }
         failure {
             echo 'Validation failed.'
