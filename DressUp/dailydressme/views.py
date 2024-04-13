@@ -68,7 +68,7 @@ class OutfitRecommendationAPIView(APIView):
         
 class TemperatureAPIView(APIView):
     def post(self, request, *args, **kwargs):
-        city = request.data.get('city', 'oslo')  # Default to Beirut if no city is provided
+        city = request.data.get('city', 'Beirut')  # Default to Beirut if no city is provided
         try:
             temperature = get_weather_data(city)
             print(f"Temperature in {city}: {temperature}")
