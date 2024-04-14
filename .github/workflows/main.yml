@@ -1,4 +1,4 @@
-name: Docker Build
+name: Docker Build and Deploy
 
 on:
   push:
@@ -6,12 +6,37 @@ on:
       - main
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
+
+    - name: Trigger Jenkins Validation
+      run: |
+        curl -X POST "http://3.75.204.56:8080/job/ValidationPipeline/buildWithParameters?token=${{ secrets.JENKINS_TOKEN }}" -u user:${{ secrets.JENKINS_USER }}
+      env:
+        JENKINS_TOKEN: ${{ secrets.JENKINS_TOKEN }}
+        JENKINS_USER: ${{ secrets.JENKINS_USER }}
+
+    - name: Wait for Jenkins Job to Complete
+      run: |
+        timeout=0
+        while [ $timeout -lt 1800 ]; do
+          status=$(curl -s "http://3.75.204.56:8080/job/ValidationPipeline/lastBuild/api/json" -u user:${{ secrets.JENKINS_USER }} | jq -r '.result')
+          if [ "$status" == "SUCCESS" ]; then
+            echo "Jenkins job succeeded"
+            break
+          elif [ "$status" == "FAILURE" ]; then
+            echo "Jenkins job failed"
+            exit 1
+          fi
+          timeout=$((timeout+30))
+          sleep 30
+        done
+      env:
+        JENKINS_USER: ${{ secrets.JENKINS_USER }}
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1
@@ -23,3 +48,15 @@ jobs:
       run: |
         docker buildx build --platform linux/amd64 -t jadharfoush/chooseyourdress:latest --push .
       working-directory: ./DressUp
+
+    - name: Deploy to Machine 1
+      run: |
+        ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} ubuntu@3.74.162.139 "docker pull jadharfoush/chooseyourdress:latest && docker run -d --name chooseyourdress -p 8000:8000 jadharfoush/chooseyourdress:latest"
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+
+    - name: Deploy to Machine 2
+      run: |
+        ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} ubuntu@18.199.67.122 "docker pull jadharfoush/chooseyourdress:latest && docker run -d --name chooseyourdress -p 8000:8000 jadharfoush/chooseyourdress:latest"
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
