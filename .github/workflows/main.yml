@@ -94,7 +94,7 @@ jobs:
         docker buildx build --platform linux/amd64 -t jadharfoush/chooseyourdress:latest --push .
       working-directory: ./DressUp
 
-    - name: SSH into Ubuntu and pull docker image 
+    - name: Deploy to Machine 1
       uses: appleboy/ssh-action@master
       with:
         host: 3.74.162.139
@@ -106,7 +106,12 @@ jobs:
           docker run -d --name chooseyourdress -p 8000:8000 jadharfoush/chooseyourdress:latest
 
     - name: Deploy to Machine 2
-      run: |
-        ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} ubuntu@18.199.67.122 "docker pull jadharfoush/chooseyourdress:latest and docker run -d --name chooseyourdress -p 8000:8000 jadharfoush/chooseyourdress:latest"
-      env:
-        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      uses: appleboy/ssh-action@master
+      with:
+        host: 18.199.67.122
+        username: ubuntu
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: 22
+        script: |
+          docker pull jadharfoush/chooseyourdress:latest
+          docker run -d --name chooseyourdress -p 8000:8000 jadharfoush/chooseyourdress:latest
