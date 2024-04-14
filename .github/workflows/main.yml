@@ -23,9 +23,10 @@ jobs:
 
     - name: Trigger Jenkins Validation
       run: |
-        curl -X POST "http://3.75.204.56:8080/job/ValidationPipeline/buildWithParameters?token=${{ secrets.JENKINS_JOB_TOKEN }}" -u ${{ secrets.JENKINS_USER }}:${{ secrets.JENKINS_TOKEN }} -H "$CRUMB"
+        curl -X POST "http://3.75.204.56:8080/job/ValidationPipeline/build?token=${{ secrets.JENKINS_TOKEN }}" -u ${{ secrets.JENKINS_USER }}:${{ secrets.JENKINS_TOKEN }} -H "${{ env.CRUMB }}"
       env:
-        JENKINS_JOB_TOKEN: ${{ secrets.JENKINS_JOB_TOKEN }}
+        JENKINS_USER: ${{ secrets.JENKINS_USER }}
+        JENKINS_TOKEN: ${{ secrets.JENKINS_TOKEN }}
         CRUMB: ${{ env.CRUMB }}
 
     - name: Wait for Jenkins Job to Complete
