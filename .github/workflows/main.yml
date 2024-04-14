@@ -24,14 +24,28 @@ jobs:
       run: |
         timeout=0
         while [ $timeout -lt 1800 ]; do
-          status=$(curl -s "http://3.75.204.56:8080/job/ValidationPipeline/lastBuild/api/json" -u user:${{ secrets.JENKINS_USER }} | jq -r '.result')
+          response=$(curl -s "http://3.75.204.56:8080/job/ValidationPipeline/lastBuild/api/json" -u user:${{ secrets.JENKINS_USER }})
+          echo "Response from Jenkins: $response"  # Debug output
+          status=$(echo $response | jq -r '.result')
+          echo "Parsed status: $status"  # Debug output
+
           if [ "$status" == "SUCCESS" ]; then
             echo "Jenkins job succeeded"
             break
           elif [ "$status" == "FAILURE" ]; then
             echo "Jenkins job failed"
             exit 1
+          elif [ "$status" == "null" ]; then
+            echo "Job is still running or has not yet returned a final status."
+          else
+            echo "Received unexpected status or job might not have started properly."
           fi
+
+          if [ $timeout -ge 1800 ]; then
+            echo "Timed out waiting for Jenkins job to complete."
+            exit 1
+          fi
+
           timeout=$((timeout+30))
           sleep 30
         done
