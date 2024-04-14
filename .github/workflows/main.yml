@@ -13,31 +13,29 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v2
 
-    - name: Fetch Jenkins Crumb
+    - name: Trigger Jenkins and Wait for Completion
       run: |
+        # Fetch the crumb
         crumb=$(curl -s -u ${{ secrets.JENKINS_USER }}:${{ secrets.JENKINS_TOKEN }} "http://3.75.204.56:8080/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,\":\",//crumb)")
-        echo "CRUMB=$crumb" >> $GITHUB_ENV
-      env:
-        JENKINS_USER: ${{ secrets.JENKINS_USER }}
-        JENKINS_TOKEN: ${{ secrets.JENKINS_TOKEN }}
+        echo "Crumb received: $crumb"
 
-    - name: Trigger Jenkins Validation
-      run: |
-        curl -X POST "http://3.75.204.56:8080/job/ValidationPipeline/build?token=${{ secrets.JENKINS_TOKEN }}" -u ${{ secrets.JENKINS_USER }}:${{ secrets.JENKINS_TOKEN }} -H "${{ env.CRUMB }}"
-      env:
-        JENKINS_USER: ${{ secrets.JENKINS_USER }}
-        JENKINS_TOKEN: ${{ secrets.JENKINS_TOKEN }}
-        CRUMB: ${{ env.CRUMB }}
+        # Trigger the Jenkins job
+        trigger_response=$(curl -X POST "http://3.75.204.56:8080/job/ValidationPipeline/build?token=${{ secrets.JENKINS_TOKEN }}" -u ${{ secrets.JENKINS_USER }}:${{ secrets.JENKINS_TOKEN }} -H "$crumb")
+        echo "Jenkins job triggered: $trigger_response"
 
-    - name: Wait for Jenkins Job to Complete
-      run: |
+        # Initialize timeout variables
         timeout=0
-        max_timeout=1800
+        max_timeout=1800  # Set a maximum timeout in seconds (e.g., 30 minutes).
+
+        # Poll for job completion
         while [ $timeout -lt $max_timeout ]; do
-          response=$(curl -s -u ${{ secrets.JENKINS_USER }}:${{ secrets.JENKINS_TOKEN }} -H "$CRUMB" "http://3.75.204.56:8080/job/ValidationPipeline/lastBuild/api/json")
+          # Fetch the job status
+          response=$(curl -s -u ${{ secrets.JENKINS_USER }}:${{ secrets.JENKINS_TOKEN }} -H "$crumb" "http://3.75.204.56:8080/job/ValidationPipeline/lastBuild/api/json")
+          echo "Response from Jenkins: $response"
           status=$(echo $response | jq -r '.result')
-          echo "Current job status: $status"
-          
+          echo "Parsed status: $status"
+
+          # Check the job status
           if [ "$status" == "SUCCESS" ]; then
             echo "Jenkins job succeeded."
             break
@@ -49,19 +47,20 @@ jobs:
           else
             echo "Received unexpected status."
           fi
-          
-          if [ $timeout -ge $max_timeout ]; then
-            echo "Timed out waiting for Jenkins job to complete."
-            exit 1
-          fi
-          
+
+          # Sleep and update timeout
           sleep 30
           timeout=$((timeout + 30))
         done
+
+        # Handle timeout situation
+        if [ $timeout -ge $max_timeout ]; then
+          echo "Timed out waiting for Jenkins job to complete."
+          exit 1
+        fi
       env:
         JENKINS_USER: ${{ secrets.JENKINS_USER }}
         JENKINS_TOKEN: ${{ secrets.JENKINS_TOKEN }}
-        CRUMB: ${{ env.CRUMB }}
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1
