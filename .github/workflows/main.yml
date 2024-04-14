@@ -13,48 +13,54 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v2
 
+    - name: Fetch Jenkins Crumb
+      run: |
+        crumb=$(curl -s -u ${{ secrets.JENKINS_USER }}:${{ secrets.JENKINS_TOKEN }} "http://3.75.204.56:8080/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,\":\",//crumb)")
+        echo "CRUMB=$crumb" >> $GITHUB_ENV
+      env:
+        JENKINS_USER: ${{ secrets.JENKINS_USER }}
+        JENKINS_TOKEN: ${{ secrets.JENKINS_TOKEN }}
+
     - name: Trigger Jenkins Validation
       run: |
-
-        crumb=$(curl -u ${{ secrets.JENKINS_USER }}:${{ secrets.JENKINS_TOKEN }} "http://3.75.204.56:8080/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,\":\",//crumb)")
-        echo "Crumb received: $crumb"
-
-        curl -X POST "http://3.75.204.56:8080/job/ValidationPipeline/build?token=${{ secrets.JENKINS_TOKEN }}" -u ${{ secrets.JENKINS_USER }}:${{ secrets.JENKINS_TOKEN }} -H "$crumb"
+        curl -X POST "http://3.75.204.56:8080/job/ValidationPipeline/buildWithParameters?token=${{ secrets.JENKINS_JOB_TOKEN }}" -u ${{ secrets.JENKINS_USER }}:${{ secrets.JENKINS_TOKEN }} -H "$CRUMB"
       env:
-        JENKINS_TOKEN: ${{ secrets.JENKINS_TOKEN }}
-        JENKINS_USER: ${{ secrets.JENKINS_USER }}
+        JENKINS_JOB_TOKEN: ${{ secrets.JENKINS_JOB_TOKEN }}
+        CRUMB: ${{ env.CRUMB }}
 
     - name: Wait for Jenkins Job to Complete
       run: |
         timeout=0
-        while [ $timeout -lt 1800 ]; do
-          response=$(curl -s "http://3.75.204.56:8080/job/ValidationPipeline/lastBuild/api/json" -u user:${{ secrets.JENKINS_USER }})
-          echo "Response from Jenkins: $response"  # Debug output
+        max_timeout=1800
+        while [ $timeout -lt $max_timeout ]; do
+          response=$(curl -s -u ${{ secrets.JENKINS_USER }}:${{ secrets.JENKINS_TOKEN }} -H "$CRUMB" "http://3.75.204.56:8080/job/ValidationPipeline/lastBuild/api/json")
           status=$(echo $response | jq -r '.result')
-          echo "Parsed status: $status"  # Debug output
-
+          echo "Current job status: $status"
+          
           if [ "$status" == "SUCCESS" ]; then
-            echo "Jenkins job succeeded"
+            echo "Jenkins job succeeded."
             break
           elif [ "$status" == "FAILURE" ]; then
-            echo "Jenkins job failed"
+            echo "Jenkins job failed."
             exit 1
           elif [ "$status" == "null" ]; then
-            echo "Job is still running or has not yet returned a final status."
+            echo "Jenkins job is still running..."
           else
-            echo "Received unexpected status or job might not have started properly."
+            echo "Received unexpected status."
           fi
-
-          if [ $timeout -ge 1800 ]; then
+          
+          if [ $timeout -ge $max_timeout ]; then
             echo "Timed out waiting for Jenkins job to complete."
             exit 1
           fi
-
-          timeout=$((timeout+30))
+          
           sleep 30
+          timeout=$((timeout + 30))
         done
       env:
         JENKINS_USER: ${{ secrets.JENKINS_USER }}
+        JENKINS_TOKEN: ${{ secrets.JENKINS_TOKEN }}
+        CRUMB: ${{ env.CRUMB }}
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1
