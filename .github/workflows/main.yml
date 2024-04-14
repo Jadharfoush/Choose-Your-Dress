@@ -97,7 +97,7 @@ jobs:
     - name: Deploy to Machine 1
       uses: appleboy/ssh-action@master
       with:
-        host: 3.74.162.139
+        host: 3.66.225.102
         username: ubuntu
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: 22
@@ -111,7 +111,7 @@ jobs:
     - name: Deploy to Machine 2
       uses: appleboy/ssh-action@master
       with:
-        host: 18.199.67.122
+        host: 18.159.131.39
         username: ubuntu
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: 22
