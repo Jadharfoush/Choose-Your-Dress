@@ -1,4 +1,19 @@
-- name: Trigger Jenkins and Capture Build Number
+name: Docker Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+ - name: Trigger Jenkins and Capture Build Number
   id: trigger_jenkins
   run: |
     # Trigger the job and get the queue item number
@@ -54,3 +69,26 @@
     done
   env:
     CRUMB: ${{ env.CRUMB }}
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Log in to Docker Hub
+      run: echo "${{ secrets.DOCKER_TOKEN }}" | docker login -u jadharfoush --password-stdin
+
+    - name: Build and Push Docker Image
+      run: |
+        docker buildx build --platform linux/amd64 -t jadharfoush/chooseyourdress:latest --push .
+      working-directory: ./DressUp
+
+    - name: Deploy to Machine 1
+      run: |
+        ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} ubuntu@3.74.162.139 "docker pull jadharfoush/chooseyourdress:latest && docker run -d --name chooseyourdress -p 8000:8000 jadharfoush/chooseyourdress:latest"
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+
+    - name: Deploy to Machine 2
+      run: |
+        ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} ubuntu@18.199.67.122 "docker pull jadharfoush/chooseyourdress:latest && docker run -d --name chooseyourdress -p 8000:8000 jadharfoush/chooseyourdress:latest"
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
