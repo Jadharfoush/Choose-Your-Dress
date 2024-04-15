@@ -13,3 +13,4 @@ class TemperatureAPITest(TestCase):
 
         # Compare temperatures with a tolerance of less than 1 degree difference
         self.assertAlmostEqual(temp_custom, temp_owm, delta=1, msg="The difference in temperatures is greater than 1 degree.")
+
