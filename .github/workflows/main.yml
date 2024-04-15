@@ -26,7 +26,7 @@ jobs:
       id: trigger_jenkins
       run: |
         # Trigger the job and get the queue item number
-        queue_item_url=$(curl -s -X POST "http://3.72.16.151:8080/job/ValidationPipeline/build?token=${{ secrets.JENKINS_TOKEN }}" \
+        queue_item_url=$(curl -s -X POST "http://52.29.29.45:8080/job/ValidationPipeline/build?token=${{ secrets.JENKINS_TOKEN }}" \
           -u ${{ secrets.JENKINS_USER }}:${{ secrets.JENKINS_TOKEN }} -H "${CRUMB}" -D - \
           | grep 'Location' | awk '{print $2}' | tr -d '\r')
 
@@ -97,7 +97,7 @@ jobs:
     - name: Deploy to Machine 1
       uses: appleboy/ssh-action@master
       with:
-        host: 3.72.8.118
+        host: 52.28.179.100
         username: ubuntu
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: 22
@@ -111,7 +111,7 @@ jobs:
     - name: Deploy to Machine 2
       uses: appleboy/ssh-action@master
       with:
-        host: 3.73.38.144
+        host: 18.197.63.67
         username: ubuntu
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: 22
