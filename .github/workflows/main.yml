@@ -15,7 +15,7 @@ jobs:
 
     - name: Fetch Jenkins Crumb
       run: |
-        crumb=$(curl -s -u ${{ secrets.JENKINS_USER }}:${{ secrets.JENKINS_TOKEN }} "http://18.194.212.174:8080/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,\":\",//crumb)")
+        crumb=$(curl -s -u ${{ secrets.JENKINS_USER }}:${{ secrets.JENKINS_TOKEN }} "http:3.72.16.151/:8080/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,\":\",//crumb)")
         echo "Crumb received: $crumb"
         echo "CRUMB=$crumb" >> $GITHUB_ENV
       env:
@@ -26,7 +26,7 @@ jobs:
       id: trigger_jenkins
       run: |
         # Trigger the job and get the queue item number
-        queue_item_url=$(curl -s -X POST "http://18.194.212.174:8080/job/ValidationPipeline/build?token=${{ secrets.JENKINS_TOKEN }}" \
+        queue_item_url=$(curl -s -X POST "http://3.72.16.151:8080/job/ValidationPipeline/build?token=${{ secrets.JENKINS_TOKEN }}" \
           -u ${{ secrets.JENKINS_USER }}:${{ secrets.JENKINS_TOKEN }} -H "${CRUMB}" -D - \
           | grep 'Location' | awk '{print $2}' | tr -d '\r')
 
@@ -64,7 +64,7 @@ jobs:
             exit 1
           fi
 
-          response=$(curl -s -u ${{ secrets.JENKINS_USER }}:${{ secrets.JENKINS_TOKEN }} -H "${CRUMB}" "http://18.194.212.174:8080/job/ValidationPipeline/$build_number/api/json")
+          response=$(curl -s -u ${{ secrets.JENKINS_USER }}:${{ secrets.JENKINS_TOKEN }} -H "${CRUMB}" "http://3.72.16.151:8080/job/ValidationPipeline/$build_number/api/json")
           status=$(echo $response | jq -r '.result')
           echo "Current job status: $status"
 
@@ -97,7 +97,7 @@ jobs:
     - name: Deploy to Machine 1
       uses: appleboy/ssh-action@master
       with:
-        host: 3.75.93.67
+        host: 3.72.8.118
         username: ubuntu
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: 22
@@ -111,7 +111,7 @@ jobs:
     - name: Deploy to Machine 2
       uses: appleboy/ssh-action@master
       with:
-        host: 3.68.84.220
+        host: 3.73.38.144
         username: ubuntu
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: 22
