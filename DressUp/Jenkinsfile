@@ -1,13 +1,13 @@
 pipeline {
     agent any
-
+ 
     stages {
         stage('Checkout') {
             steps {
                 checkout scm
             }
         }
-
+ 
         stage('Setup Python Environment') {
             steps {
                 dir('DressUp') {  // Navigate into the DressUp directory
@@ -19,24 +19,44 @@ pipeline {
                 }
             }
         }
-
-        stage('Run Validation Tests') {
+ 
+        stage('Start Server and Run Tests') {
             steps {
-                dir('DressUp') {  // Ensure you are still in the DressUp directory
-                    sh '''
-                    . venv/bin/activate
-                    python manage.py test
-                    '''
+                dir('DressUp') {
+                    script {
+                        // Start Django development server in the background
+                        sh(script: '''
+                        . venv/bin/activate
+                        python manage.py runserver &> django_server.log &  // Redirect output to a log file and run in background
+                        echo $! > server.PID  // Save the PID of the server process to a file
+                        ''', returnStdout: true).trim()
+ 
+                        // Wait for the server to be fully up before starting tests
+                        sh 'sleep 10'  // Delay to ensure server has started
+ 
+                        // Run the tests
+                        try {
+                            sh '''
+                            . venv/bin/activate
+                            python manage.py test
+                            '''
+                        } finally {
+                            // Kill the Django server using the stored PID
+                            sh 'kill $(cat server.PID)'
+                            sh 'rm server.PID'
+                        }
+                    }
                 }
             }
         }
     }
-
+ 
     post {
         always {
             dir('DressUp') {  // Ensure you clean up the virtual environment within the DressUp directory
                 echo 'Cleaning up...'
                 sh 'rm -rf venv'
+                sh 'rm -f django_server.log' // Remove server log file
             }
             echo 'Pipeline execution completed.'
         }
