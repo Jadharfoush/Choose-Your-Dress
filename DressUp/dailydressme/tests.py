@@ -4,7 +4,7 @@ import requests
 class TemperatureAPITest(TestCase):
     def test_temperature_equality(self):
         # Fetch temperature from custom API
-        response_custom = requests.post('http://3.75.204.56:8000/api/temperature', json={"city": "Oslo"})
+        response_custom = requests.post('http://18.194.212.174:8000/api/temperature', json={"city": "Oslo"})
         temp_custom = response_custom.json()['temperature']
 
         # Fetch temperature from OpenWeatherMap
