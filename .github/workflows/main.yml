@@ -64,7 +64,7 @@ jobs:
             exit 1
           fi
 
-          response=$(curl -s -u ${{ secrets.JENKINS_USER }}:${{ secrets.JENKINS_TOKEN }} -H "${CRUMB}" "http://3.75.204.56:8080/job/ValidationPipeline/$build_number/api/json")
+          response=$(curl -s -u ${{ secrets.JENKINS_USER }}:${{ secrets.JENKINS_TOKEN }} -H "${CRUMB}" "http://18.194.212.174:8080/job/ValidationPipeline/$build_number/api/json")
           status=$(echo $response | jq -r '.result')
           echo "Current job status: $status"
 
