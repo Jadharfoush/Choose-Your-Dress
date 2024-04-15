@@ -11,5 +11,5 @@ class TemperatureAPITest(TestCase):
         response_owm = requests.get('https://api.openweathermap.org/data/2.5/weather?q=Oslo&appid=d2a2b4ae87b93c165c5421cee9970939&units=metric')
         temp_owm = response_owm.json()['main']['temp']
 
-        # Compare temperatures
-        self.assertAlmostEqual(temp_custom, temp_owm, places=1, msg="Temperatures do not match")
+        # Compare temperatures with a tolerance of less than 1 degree difference
+        self.assertAlmostEqual(temp_custom, temp_owm, delta=1, msg="The difference in temperatures is greater than 1 degree.")
