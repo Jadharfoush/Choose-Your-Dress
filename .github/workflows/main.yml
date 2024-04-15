@@ -104,7 +104,7 @@ jobs:
         script: |
          docker stop chooseyourdress || true  # Stop existing container if running, ignoring errors if it's not running
          docker rm chooseyourdress || true    # Remove existing container if it exists, ignoring errors if it doesn't exist
-
+          docker rmi $(docker images -q) || true  # Remove all existing images, ignoring errors if there are none
           docker pull jadharfoush/chooseyourdress:latest
           docker run -d --name chooseyourdress -p 8000:8000 jadharfoush/chooseyourdress:latest
 
@@ -118,6 +118,6 @@ jobs:
         script: |
          docker stop chooseyourdress || true  # Stop existing container if running, ignoring errors if it's not running
          docker rm chooseyourdress || true    # Remove existing container if it exists, ignoring errors if it doesn't exist
-
+          docker rmi $(docker images -q) || true  # Remove all existing images, ignoring errors if there are none
           docker pull jadharfoush/chooseyourdress:latest
           docker run -d --name chooseyourdress -p 8000:8000 jadharfoush/chooseyourdress:latest
