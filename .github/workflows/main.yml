@@ -15,7 +15,7 @@ jobs:
 
     - name: Fetch Jenkins Crumb
       run: |
-        crumb=$(curl -s -u ${{ secrets.JENKINS_USER }}:${{ secrets.JENKINS_TOKEN }} "http://3.72.16.151/:8080/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,\":\",//crumb)")
+        crumb=$(curl -v -s -u ${{ secrets.JENKINS_USER }}:${{ secrets.JENKINS_TOKEN }} "http://3.72.16.151:8080/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,\":\",//crumb)")
         echo "Crumb received: $crumb"
         echo "CRUMB=$crumb" >> $GITHUB_ENV
       env:
